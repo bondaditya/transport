@@ -38,7 +38,7 @@ def BookingFormView(request):
 		subject = "localhost:8000/thanks/%s" %(instance.slug)  
 		from_email = settings.EMAIL_HOST_USER 
 		to_email = [form_email,from_email,'guptaadityaiitb@gmail.com']
-		contact_message = "http://127.0.0.1:8000/booking"+"%s" %(instance.slug)
+		contact_message = "http://127.0.0.1:8000/booking/"+"%s" %(instance.slug)
 		# some_html_message =  """
 		# 			<!DOCTYPE html>
 		# 	<html lang="en">
@@ -142,12 +142,30 @@ def Thanks(request):
 class BookingUpdateView(LoginRequiredMixin, UpdateView):
     form_class = BookingUpdateForm
     model = Booking
+
     
     def form_valid(self, form):
+
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
-        return redirect('thanks', slug=self.object.slug)
+        slug = self.kwargs.get("slug")
+        form_email = form.cleaned_data.get("name_email")
+        form_name = form.cleaned_data.get("head_name")
+        form_vehicle_type = form.cleaned_data.get("vehicle_type")
+        subject = "localhost:8000/booking/%s" %(slug)  
+        from_email = settings.EMAIL_HOST_USER 
+        to_email = [form_email,from_email,'guptaadityaiitb@gmail.com']
+        contact_message = "http://127.0.0.1:8000/booking/"+"%s" %(slug)
+        send_mail(subject, 
+				contact_message, 
+				from_email, 
+				to_email, 
+				
+				fail_silently=True)
+        print (slug)
+        #messages.success(self, "Successfully Created")
+        return redirect('thanks', slug=slug)
       
 
     def get_context_data(self, slug=None, **kwargs):

@@ -1,0 +1,27 @@
+h1 {
+
+	color: red;
+}
+p {
+    color: black;
+
+}
+
+
+
+.wrap {
+    width: 100%;
+}
+
+.floatleft {
+    float:left; 
+    width: 75%;
+    
+ 
+}
+
+.floatright {
+float: right;
+    
+    width: 25%;
+}

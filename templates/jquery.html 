@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block jquery %}
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+{{ mo1 }}, {{ e1 }}
+
+{% endblock %}

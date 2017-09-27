@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block jquery %}
+
+function checkTime(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
+
+function startTime() {
+  var today = new Date();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  // add a zero in front of numbers<10
+  h = checkTime(h);
+  m = checkTime(m);
+  s = checkTime(s); 
+
+  document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+
+  t = setTimeout(function() {
+    startTime()
+  }, 500);
+
+
+
+var ponga = h + ":" + m + ":" + s;
+
+
+var breakfast1 = "08:00:00";
+var breakfast2 = "10:15:00";
+var lunch1 = "12:00:00";
+var lunch2 = "14:15:00";
+var snacks1 = "17:00:00";
+var snacks2 = "18:00:00";
+var dinner1 = "20:00:00";
+var dinner2 = "22:00:00";
+
+
+
+
+if (breakfast1 <= ponga && breakfast2 >= ponga) {
+	$("#breakfast").show();
+
+
+} 
+else if ( lunch1 <= ponga && lunch2 >= ponga) {
+	$("#lunch").show();
+	
+}
+else if (snacks1 <= ponga && snacks2 >= ponga) {
+	$("#snacks").show();
+}
+else if (dinner1 <= ponga  && dinner2 >= ponga) {
+	$("#dinner").show();
+}
+else{
+	$("#comeback").show();
+
+
+}
+};
+
+
+startTime();
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+<div class="container">
+<h1>Hi! {{ user.username }}</h1>
+<div class="row" align="center">
+<button type="button" class="btn btn-primary" >Breakfast</button>
+<button type="button" class="btn btn-primary" >Lunch</button>
+<button type="button" class="btn btn-primary" >Snacks</button>
+<button style="display: none;" id="dinner" type="button" class="btn btn-primary" >Dinner</button>
+
+
+<h3 style="display:none;" id="comeback">Comback Later </h3>
+<h1>Choose options </h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+
+  {{ form.non_field_errors }}
+
+  {{ form.source.errors }}
+  {{ form.source }}
+
+  <table border="1">
+
+      <tr style="display: none;" id="breakfast">
+        <th>{{ form.breakfast.label_tag }}</th>
+        <td>
+          {{ form.breakfast.errors }}
+          {{ form.breakfast }}
+        </td>
+      </tr>
+
+      <tr style="display: none;" id="lunch" >
+        <th>{{ form.lunch.label_tag }}</th>
+        <td>
+          {{ form.lunch.errors }}
+          {{ form.lunch }}
+        </td>
+      </tr>
+      <tr style="display: none;" id="snacks" >
+        <th>{{ form.snacks.label_tag }}</th>
+        <td>
+          {{ form.snacks.errors }}
+          {{ form.snacks }}
+          <br />
+          {{ form.snacks.help_text }}
+        </td>
+      </tr>
+
+      <tr style="display: none;" id="dinner" >
+        <th>{{ form.dinner.label_tag }}</th>
+        <td>
+          {{ form.dinner.errors }}
+          {{ form.dinner }}
+          <br />
+          {{ form.dinner.help_text }}
+        </td>
+      </tr>
+
+  </table>
+
+  <button type="submit">Submit</button>
+</form>
+
+
+
+</div>
+
+
+
+
+
+<div class="row" align="center" style="display: none;">
+
+
+<h3> The time is: 
+<div id="time"></div>
+</h3>
+</div>
+</div>
+
+
+
+<div class="container">
+  <h2>Report Table</h2>
+  <p>Click on the button to export the report file</p>            
+  <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+      	
+        <th>Student Name</th>
+        <th>Breakfast Count</th>
+        <th>Lunch Count</th>
+        <th>Snacks Count</th>
+        <th>Dinner Count</th>
+       
+       </tr>
+    </thead>
+    <tbody>
+      <tr>
+      {% for user in users %}
+      	
+        <td>{{ user.username }}</td>
+        
+     
+        <td>{{ user.breakfast.mod_count }}</td>
+        <td>{{ user.role.role }}</td><td>{{ user.mole.role }}</td>
+        <td>{{ user.lunch.mod_count }}</td>
+        <td>{{ user.snacks.mod_count }}</td>
+        <td>{{ user.dinner.mod_count }}</td>
+        
+        </tr>
+        {% endfor %}
+<td>{{ breakfast.mod_count }}</td>
+<td>{{ snacks.mod_count }}</td>
+<td>{{ lunch.mod_count }}</td>
+<td>{{ dinner.mod_count }}</td>
+        </tbody>
+        </table>
+
+
+{% endblock content %}
+
+

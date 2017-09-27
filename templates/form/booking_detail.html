@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+
+{% block head_title %}
+{{ object.title }} | {{ block.super }}
+{% endblock head_title %}
+
+
+
+{% block content %}
+<div class='col-md-8 col-sm-offset-2'>
+<table class="table">
+<thead>
+    <tr>
+      <th></th>
+      <td><b><br>Requestee Name:</b></br> {{ booking.pk }}</td>
+      <td><b><br>Head Name: </b></br>{{ booking.head_name }}</td>
+      <td><b><br>Approver Name: </b></br>{{ booking.approval_name }}</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row"></th>
+      <td><b><br>Vehicle Type: </b></br>{{ booking.vehicle_type }}</td>
+      <td><b><br>Booking Type: </b></br>{{ booking.vehicle_type }}</td>
+      <td><b><br>Pickup Address: </b></br>{{ booking.pickup_address }}</td>
+
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td><b><br>Pickup Time:</b></br> {{ booking.pickup_time }}: {{ booking.am_pm }}</td>
+      <td><b><br>Pickup Date: </b></br>{{ booking.pickup_date }}</td>
+      <td><b><br>Contact: </b></br>{{ booking.contact }}</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td><b><br>Approval Status: </b></br>{{ booking.approval_status }}</td>
+      <td><b><br>Your Note: </b></br>{{ booking.note_user }}</td>
+      <td><b><br>Admin Note:</b></br> {{ booking.note_admin }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+    
+
+
+{% endblock content %}

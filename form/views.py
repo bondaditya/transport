@@ -19,6 +19,10 @@ from django.shortcuts import redirect
 from braces.views import LoginRequiredMixin
 from django.views.generic import UpdateView, ListView, DetailView 
 from django.core.mail import send_mail
+# from django.template import Context
+# from django.template.loader import get_template
+from django.template.loader import render_to_string
+
 
 
 @login_required
@@ -31,14 +35,16 @@ def BookingFormView(request):
 		instance = form.save(commit=False)
 		instance.user = request.user
 		instance.save()
-		form_email = form.cleaned_data.get("name_email")
-		
+		form_email1 = form.cleaned_data.get("head_email")
+		form_email2 = form.cleaned_data.get("approval_email")
 		form_name = form.cleaned_data.get("head_name")
 		form_vehicle_type = form.cleaned_data.get("vehicle_type")
-		subject = "localhost:8000/thanks/%s" %(instance.slug)  
+		subject = "localhost:8000/booking/%s" %(instance.slug)  
 		from_email = settings.EMAIL_HOST_USER 
-		to_email = [form_email,from_email,'guptaadityaiitb@gmail.com']
+		to_email = [form_email1, form_email2, from_email,'guptaadityaiitb@gmail.com',]
 		contact_message = "http://127.0.0.1:8000/booking/"+"%s" %(instance.slug)
+		msg_html = render_to_string('form/email_request.html', {'booking': Booking.objects.get(slug=instance.slug)})
+
 		# some_html_message =  """
 		# 			<!DOCTYPE html>
 		# 	<html lang="en">
@@ -54,12 +60,11 @@ def BookingFormView(request):
 		# """
 		
 		
+		
 		send_mail(subject, 
 				contact_message, 
 				from_email, 
-				to_email, 
-				
-				fail_silently=True)
+				to_email, html_message=msg_html)
 		print (instance.slug)
 		messages.success(request, "Successfully Created")
 		return redirect('thanks', slug=instance.slug)
@@ -78,6 +83,7 @@ def BookingDetailView(request, slug=None):
 	# 	if not request.user.is_staff or not request.user.is_superuser:
 	# 		raise Http404
 	share_string = quote_plus(instance.head_name)
+	print (instance.approval_status)
 	context = {
 		"title": instance.name,
 		"instance": instance,
@@ -150,13 +156,14 @@ class BookingUpdateView(LoginRequiredMixin, UpdateView):
         self.object.user = self.request.user
         self.object.save()
         slug = self.kwargs.get("slug")
-        form_email = form.cleaned_data.get("name_email")
-        form_name = form.cleaned_data.get("head_name")
+        form_email1 = self.object.head_email
+        form_email2 = self.object.approval_email
+        form_name = self.object.head_name
         form_vehicle_type = form.cleaned_data.get("vehicle_type")
-        subject = "localhost:8000/booking/%s" %(slug)  
-        from_email = settings.EMAIL_HOST_USER 
-        to_email = [form_email,from_email,'guptaadityaiitb@gmail.com']
-        contact_message = "http://127.0.0.1:8000/booking/"+"%s" %(slug)
+        subject = "localhost:8000/detail/%s" %(slug)  
+        from_email = 'gupta.aditya.iitb@gmail.com' 
+        to_email = [form_email1, form_email2,from_email,'guptaadityaiitb@gmail.com']
+        contact_message = "http://127.0.0.1:8000/detail/"+"%s" %(slug)
         send_mail(subject, 
 				contact_message, 
 				from_email, 

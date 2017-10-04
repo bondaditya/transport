@@ -22,9 +22,9 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^thanks/(?P<slug>[\w-]+)/$', BookingDetailView, name='thanks' ),
+    url(r'^detail/(?P<slug>[\w-]+)/$', BookingDetailView, name='thanks' ),
     url(r'^booking/$', BookingFormView, name='booking'),
-    url(r'^list/$', BookingListView, name='list'),
+    url(r'^$', BookingListView, name='list'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^booking/(?P<slug>[\w-]+)$', BookingUpdateView.as_view(), name='bookingupdate'),
     url(r'^accounts/login', LoginView.as_view(), name="login" ),

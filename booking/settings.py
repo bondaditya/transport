@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'allauth.socialaccount.providers.google',
+    'daterange_filter',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -145,6 +147,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = False
 ACCOUNT_PASSWORD_MIN_LENGTH = 4
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+#SOCIALACCOUNT_ADAPTER = 'form.my_adapter.SocialAccountAdapter'
 
 DATABASES = {
     'default': {
@@ -153,6 +156,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'form.MyUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

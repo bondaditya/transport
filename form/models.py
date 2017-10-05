@@ -1,10 +1,12 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save 
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+from django.core.mail import send_mail
+from django.dispatch import receiver
 
 
 
@@ -64,7 +66,7 @@ class Booking(models.Model):
 	transport = models.ForeignKey(Transport, default=1,null=True,blank=True)
 	commuter_name = models.CharField(max_length=120, null=False)
 	#head_email = models.EmailField(max_length=254,null=False)
-	budget_head = models.CharField(max_length=120, null=False)
+	budget_head = models.CharField(max_length=120, choices=Vehicle_Choices,default='Car',null=False)
 	vehicle_type = models.CharField(max_length=120,  choices=Vehicle_Choices,default='Car')
 	booking_type = models.CharField(max_length=120, choices=Booking_Choices,default='Unapproved')
 	pickup_address = models.TextField(null=False)
@@ -83,14 +85,24 @@ class Booking(models.Model):
 	slug = models.SlugField(unique=True)
 
 	def __str__(self):
-		return self.name
+		return self.commuter_name
 
 	def get_absolute_url(self):
 		return reverse("thanks", kwargs={"slug": self.slug})
 
+	def save(self):
+		if self.id:
+			booking = Booking.objects.get(pk=self.pk)
+			email1 = self.approving_authority_email
+			from_email = settings.EMAIL_HOST_USER
+			to_email = [email1,from_email]
+			send_mail("Hi","Hi",from_email,to_email)
+		super(Booking, self).save
+
+
 
 def create_slug(instance, new_slug=None):
-    slug = slugify(instance.title)
+    slug = slugify(instance.commuter_name)
     if new_slug is not None:
         slug = new_slug
     qs = Post.objects.filter(slug=slug).order_by("-id")
@@ -111,6 +123,7 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_post_receiver, sender=Booking)
+
 
 
 

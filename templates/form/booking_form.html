@@ -6,6 +6,25 @@
 {{ object.title }} | {{ block.super }}
 {% endblock head_title %}
 
+{% block jquery %}
+
+
+
+
+
+
+
+$("a").css({"color":"yellow", "font-size":"125%", "padding-right":"20px"});
+$("a").mouseover(function(){
+    $(this).css("color", "white");
+$("a").mouseleave(function(){
+    $(this).css("color","yellow");
+})    
+    });
+
+
+{% endblock %}
+
 
 
 {% block content %}

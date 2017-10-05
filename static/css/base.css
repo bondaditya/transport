@@ -1,33 +1,3 @@
-h1 {
-
-	color: red;
-}
-p {
-    color: black;
-
-}
 a {
-	font-color:white;
-}
-body {
-	background-color: yellow;
-}
-
-
-
-.wrap {
-    width: 100%;
-}
-
-.floatleft {
-    float:left; 
-    width: 75%;
-    
- 
-}
-
-.floatright {
-float: right;
-    
-    width: 25%;
+	color: white;
 }

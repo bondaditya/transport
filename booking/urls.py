@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^booking/(?P<slug>[\w-]+)$', BookingUpdateView.as_view(), name='bookingupdate'),
     url(r'^accounts/login', LoginView.as_view(), name="login" ),
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

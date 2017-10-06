@@ -15,12 +15,12 @@ from django.template.loader import render_to_string
 
 #Transport_Choices = (('Ashoka University','Ashoka University'),('Vikrant Holidays','Vikrant Holidays'),('W G Tours & Travels','W G Tours & Travels'))
 #Budget_Head_Choices = (('Admin','Admin'),('Career Development','Career Development'),('CFE','CFE'),('CMGGA','CMGGA'),('Colloquium Creative Writing','Colloquium Creative Writing'),('Colloquium','Colloquium'),('CSBC','CSBC'),('CSGS','CSGS'),('CSIP','CSIP'),('Finance','Finance'),('Fund Raising','Fund Raising'),('GCWL','GCWL'),('HR','HR'),('IT','IT'),('Library','Library'),('Marketing YIF','Marketing YIF'),('Media','Media'),('OAA','OAA'),('OOR','OOR'),('OSL','OSL'),('OUP','OUP'),('Operations','Operations'),('Performing Arts','Performing Arts'),('Pro VC Office','Pro VC Office'),('Projects','Projects'),('Research Budget(Madhavi Maganti)','Research Budget(Madhavi Maganti)'),('Research Budget(Tusli Sriniwasan)','Research Budget(Tusli Sriniwasan)'),('Rsearch Budget(Dario Darji)','Rsearch Budget(Dario Darji)'),('Science','Science'),('SERI','SERI'),('Sports','Sports'),('Summer Semester','Summer Semester'),('TCPD','TCPD'),('VC Office','VC Office'),('YIF','YIF'),('YIF Alumni','YIF Alumni'))
-active_choices = (('x','x'),('y','y'))
+active_choices = (('active','active'),('inactive','inactive'))
 night_choices = (('Yes','Yes'),('No','No'))
 AmPm_Choices = (('am','am'),('pm','pm'))
 Booking_Choices = (('One way journey','One way journey'),('Return journey','Return journey'),('Airport transfer','Airport transfer'),('Railway Station Transfer','Railway Station Transfer'))
 Approval_Choices = (('approved','approved'),('unapproved','unapproved'),('rejected','rejected'))
-assigned_Choices = (('approved','approved'),('unapproved','unapproved'),('rejected','rejected'))
+#assigned_Choices = (('approved','approved'),('unapproved','unapproved'),('rejected','rejected'))
 driver_Choices = (('approved','approved'),('unapproved','unapproved'),('rejected','rejected'))
 Time_Choices = 	(('1:00','1:00'),('2:00','2:00'),('3:00','3:00'),('4:00','4:00'),('5:00','5:00'),('6:00','6:00'),('7:00','7:00'),('8:00','8:00'),('9:00','9:00'),('10:00','10:00'),('11:00','11:00'),('12:00','12:00'))
 
@@ -102,7 +102,7 @@ class Booking( models.Model):
 	commuter_contact = models.IntegerField()
 	# approving_authority = models.CharField(max_length=120, null=False)
 	# approving_authority_email = models.EmailField(max_length=254,null=False)
-	approval_status = models.CharField(max_length=120, choices=Approval_Choices,default='Unapproved')
+	approval_status = models.CharField(max_length=120, choices=Approval_Choices,default='unapproved')
 	remarks = models.TextField()
 	note_admin = models.TextField()
 	# assigned_to = models.CharField(max_length=120, choices=assigned_Choices,default='XYZ')

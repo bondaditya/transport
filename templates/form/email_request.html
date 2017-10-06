@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<p>Dear {{ booking.approving_authority }},</p>
+<p>Dear {{ booking.budget_head_approval_authority.reporting_authority1 }}/{{ booking.budget_head_approval_authority.reporting_authority2 }},</p>
 <p>
 
 <b>{{ booking.user }}</b> has generated a vehicle request with below details-
@@ -18,13 +18,13 @@ Type of Vehicle: {{ booking.vehicle.vehicle_type }} </p>
 Date : {{ booking.pickup_date }}       
 </p>
 <p>
-Time: {{ booking.pickup_time }}
+Time: {{ booking.pickup_time }} : {{ booking.am_pm }}
 </p>
 <p>
 Remar:ks : {{ booking.remarks }}
 </p>
 <p>
-You are requested to approve/Reject the requisition.
+You are requested to approve/Reject the requisition. Please click here to see the request: http://127.0.0.1:8000/booking/{{ booking.slug}} 
 </p>
 <p>
 Please note that all the requisitions which are not rejected 4 hours before the commencement of the journey will be considered as approved.
@@ -33,7 +33,7 @@ Thank you,
 
 </p>
 
-<p>click here to see the request: http://127.0.0.1:8000/booking/{{ booking.slug}} </p>
+<p></p>
 
 
 

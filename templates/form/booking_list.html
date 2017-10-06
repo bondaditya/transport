@@ -3,7 +3,8 @@
 {% load static %}
 
 {% block jquery %}
-$("a").css({"color":"yellow", "font-size":"125%", "padding-right":"20px"});
+$("#1").css({"color":"yellow", "font-size":"125%", "padding-right":"20px"});
+$("#2").css({"color":"yellow", "font-size":"125%", "padding-right":"20px"});
 $("h3").css({"color":"pink", "font-size":"125%", "padding-right":"20px"});
 $("a").mouseover(function(){
     $(this).css("color", "white");
@@ -38,7 +39,7 @@ $("a").mouseleave(function(){
         {% if obj.user.get_full_name %}<p>Name: {{ obj.user.get_full_name }}</p>{% endif %}
         <p>Approval Status: {{ obj.approval_status }}</p>
         <p>Vehicle Type: {{ obj.vehicle_type }}</p>
-        <p>Assigned to: {{ obj.assigned_to }}</p><p>Driver Name: {{ obj.driver_name }}</p>
+        <p>Driver Name: {{ obj.driver.driver_contact }}</p><p>Driver Contact: {{ obj.driver.driver_name }}</p>
         
       </div>
     </div>

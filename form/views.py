@@ -35,13 +35,15 @@ def BookingFormView(request):
 		instance = form.save(commit=False)
 		instance.user = request.user
 		instance.save()
-		form_email1 = form.cleaned_data.get("approving_authority_email")
+		form_email1 = instance.budget_head_approval_authority.reporting_authority_email1
+		form_email2 = instance.budget_head_approval_authority.reporting_authority_email2
+		print(form_email1,form_email2)	
 		#form_email2 = form.cleaned_data.get("approval_email")
 		form_name = form.cleaned_data.get("commuter_name")
 		form_vehicle = form.cleaned_data.get("vehicle")
 		subject = "localhost:8000/booking/%s" %(instance.slug)  
 		from_email = settings.EMAIL_HOST_USER 
-		to_email = [form_email1, from_email,'guptaadityaiitb@gmail.com',]
+		to_email = [form_email1,from_email,'transport.app@ashoka.edu.in',]
 		contact_message = "http://127.0.0.1:8000/booking/"+"%s" %(instance.slug)
 		msg_html = render_to_string('form/email_request.html', {'booking': Booking.objects.get(pk=instance.pk)})
 

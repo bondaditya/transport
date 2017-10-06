@@ -9,7 +9,7 @@ class DateInput(forms.DateInput):
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ['commuter_name','budget_head','vehicle','booking_type','pickup_address','pickup_date','pickup_time','am_pm','commuter_contact','approving_authority','approving_authority_email','remarks']
+        fields = ['commuter_name','budget_head_approval_authority','vehicle','booking_type','pickup_address','pickup_date','pickup_time','am_pm','commuter_contact','remarks']
         widgets = {
         #   'pickup_time':forms.TimeInput(format='%I:%M %p'),
             'pickup_date': DateInput(),

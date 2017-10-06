@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models.signals import pre_save, post_save 
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
+
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.template.loader import render_to_string
@@ -14,7 +14,7 @@ from django.template.loader import render_to_string
 
 
 #Transport_Choices = (('Ashoka University','Ashoka University'),('Vikrant Holidays','Vikrant Holidays'),('W G Tours & Travels','W G Tours & Travels'))
-Budget_Head_Choices = (('Admin','Admin'),('Career Development','Career Development'),('CFE','CFE'),('CMGGA','CMGGA'),('Colloquium Creative Writing','Colloquium Creative Writing'),('Colloquium','Colloquium'),('CSBC','CSBC'),('CSGS','CSGS'),('CSIP','CSIP'),('Finance','Finance'),('Fund Raising','Fund Raising'),('GCWL','GCWL'),('HR','HR'),('IT','IT'),('Library','Library'),('Marketing YIF','Marketing YIF'),('Media','Media'),('OAA','OAA'),('OOR','OOR'),('OSL','OSL'),('OUP','OUP'),('Operations','Operations'),('Performing Arts','Performing Arts'),('Pro VC Office','Pro VC Office'),('Projects','Projects'),('Research Budget(Madhavi Maganti)','Research Budget(Madhavi Maganti)'),('Research Budget(Tusli Sriniwasan)','Research Budget(Tusli Sriniwasan)'),('Rsearch Budget(Dario Darji)','Rsearch Budget(Dario Darji)'),('Science','Science'),('SERI','SERI'),('Sports','Sports'),('Summer Semester','Summer Semester'),('TCPD','TCPD'),('VC Office','VC Office'),('YIF','YIF'),('YIF Alumni','YIF Alumni'))
+#Budget_Head_Choices = (('Admin','Admin'),('Career Development','Career Development'),('CFE','CFE'),('CMGGA','CMGGA'),('Colloquium Creative Writing','Colloquium Creative Writing'),('Colloquium','Colloquium'),('CSBC','CSBC'),('CSGS','CSGS'),('CSIP','CSIP'),('Finance','Finance'),('Fund Raising','Fund Raising'),('GCWL','GCWL'),('HR','HR'),('IT','IT'),('Library','Library'),('Marketing YIF','Marketing YIF'),('Media','Media'),('OAA','OAA'),('OOR','OOR'),('OSL','OSL'),('OUP','OUP'),('Operations','Operations'),('Performing Arts','Performing Arts'),('Pro VC Office','Pro VC Office'),('Projects','Projects'),('Research Budget(Madhavi Maganti)','Research Budget(Madhavi Maganti)'),('Research Budget(Tusli Sriniwasan)','Research Budget(Tusli Sriniwasan)'),('Rsearch Budget(Dario Darji)','Rsearch Budget(Dario Darji)'),('Science','Science'),('SERI','SERI'),('Sports','Sports'),('Summer Semester','Summer Semester'),('TCPD','TCPD'),('VC Office','VC Office'),('YIF','YIF'),('YIF Alumni','YIF Alumni'))
 active_choices = (('x','x'),('y','y'))
 night_choices = (('Yes','Yes'),('No','No'))
 AmPm_Choices = (('am','am'),('pm','pm'))
@@ -51,25 +51,48 @@ class Vehicle(models.Model):
 		return self.vehicle_model_name
 
 
-class Transport(models.Model):
+class Transporter(models.Model):
 	code = models.CharField(max_length=120)
 	name = models.CharField(max_length=120)
 	contact_person = models.CharField(max_length=120)
 	contact_number = models.CharField(max_length=120)
+	contact_email = models.EmailField()
 	remarks = models.TextField()
 	status = models.CharField(max_length=120,  choices=active_choices)
 
+	def __str__(self):
+		return self.name
 
+# class Budget_Head(models.Model):
+# 	code = models.CharField(max_length=120)
+# 	name = models.CharField(max_length=120)
+# 	contact_person = models.CharField(max_length=120)
+# 	contact_number = models.CharField(max_length=120)
+# 	remarks = models.TextField()
+# 	status = models.CharField(max_length=120,  choices=active_choices)
+
+# 	def __str__(self):
+# 		return self.name 
+
+class Budget_Head(models.Model):
+	center_name = models.CharField(max_length=120)
+	reporting_authority1 = models.CharField(max_length=120)
+	reporting_authority2 = models.CharField(max_length=120, null=True, blank=True)
+	reporting_authority_email1 = models.EmailField(max_length=120)
+	reporting_authority_email2 = models.EmailField(max_length=120, null=True, blank=True)
+
+	def __str__(self):
+		return self.center_name+ " "+ "(%s)"%self.reporting_authority_email1  + " / " + "(%s)"%self.reporting_authority_email2
 
 class Booking( models.Model):
 
 	user = models.ForeignKey(User)
 	driver = models.ForeignKey(Driver, default=1, null=True, blank=True)
 	vehicle = models.ForeignKey(Vehicle,default=1,null=True, blank=True)
-	transport = models.ForeignKey(Transport, default=1,null=True,blank=True)
+	transporter = models.ForeignKey(Transporter, default=1,null=True,blank=True)
 	commuter_name = models.CharField(max_length=120, null=False)
 	#head_email = models.EmailField(max_length=254,null=False)
-	budget_head = models.CharField(max_length=120, choices=Budget_Head_Choices,default='Car',null=False)
+	budget_head_approval_authority = models.ForeignKey(Budget_Head,default=1,null=True,blank=True)
 	#vehicle_type = models.CharField(max_length=120,  choices=Vehicle_Choices,default='Car')
 	booking_type = models.CharField(max_length=120, choices=Booking_Choices,default='Unapproved')
 	pickup_address = models.TextField(null=False)
@@ -77,8 +100,8 @@ class Booking( models.Model):
 	am_pm = models.CharField(max_length=120,  choices=AmPm_Choices,default='Car')
 	pickup_date = models.DateField(null=False)
 	commuter_contact = models.IntegerField()
-	approving_authority = models.CharField(max_length=120, null=False)
-	approving_authority_email = models.EmailField(max_length=254,null=False)
+	# approving_authority = models.CharField(max_length=120, null=False)
+	# approving_authority_email = models.EmailField(max_length=254,null=False)
 	approval_status = models.CharField(max_length=120, choices=Approval_Choices,default='Unapproved')
 	remarks = models.TextField()
 	note_admin = models.TextField()
@@ -87,11 +110,12 @@ class Booking( models.Model):
 	# driver_contact = models.IntegerField(null=True, blank=True)
 	slug = models.SlugField(unique=True)
 
-	def __str__(self):
-		return self.commuter_name
-
+	
 	def get_absolute_url(self):
 		return reverse("thanks", kwargs={"slug": self.slug})
+
+	def __str__(self):
+		return self.commuter_name
 
 		
 
@@ -131,19 +155,6 @@ def active(sender, instance, **kwargs):
 				to_email, html_message=msg_html)
         # print (instance.slug)
         # messages.success(request, "Successfully Updated")
-
-
-
-
-
-
-
-
-
-
-	
-
-
 
 		# def save(self):
 		# if self.slug:

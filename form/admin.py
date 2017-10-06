@@ -1,7 +1,7 @@
 from django.contrib import admin
 from daterange_filter.filter import DateRangeFilter
 from django.contrib.auth.models import User, Group 
-from .models import Booking, Invoices, Driver, Vehicle
+from .models import Booking, Invoices, Driver, Vehicle, Transporter, Budget_Head
 from import_export.admin import ImportExportModelAdmin
 from import_export import resources, widgets
 # Register your models here.
@@ -53,8 +53,8 @@ class InvoiceResource(resources.ModelResource):
 
 class BookingAdmin(ImportExportModelAdmin):
     resource_class = BookingResource
-    list_display = ('user','approval_status','pickup_date','vehicle','booking_type','transport','driver')
-    list_filter = ('user','approval_status',('pickup_date',DateRangeFilter),'vehicle','booking_type','transport','driver')
+    list_display = ('user','approval_status','pickup_date','vehicle','booking_type','budget_head_approval_authority','transporter','driver')
+    list_filter = ('user','approval_status',('pickup_date',DateRangeFilter),'vehicle','budget_head_approval_authority','booking_type','transporter','driver')
     inlines = [InvoicesInLine]
 
 class InvoiceAdmin(ImportExportModelAdmin):
@@ -68,6 +68,8 @@ admin.site.register(Driver)
 admin.site.register(Vehicle)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(Invoices, InvoiceAdmin)
+admin.site.register(Transporter)
+admin.site.register(Budget_Head)
 
 
 

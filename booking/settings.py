@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'daterange_filter',
     'import_export',
+    
+
 ]
 
 MIDDLEWARE = [
@@ -156,7 +158,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'form.MyUser'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -182,7 +184,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

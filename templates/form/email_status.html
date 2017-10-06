@@ -2,15 +2,15 @@
 
 
 {% block content %}
-<p>Dear User,</p>
+<p>Dear {{ user }},</p>
 <p>
 
-You have generated a vehicle request with below details-
+Your request has been updated by your approving authority, {{ booking.approving_authority }} 
 </p>
 <p> Approval Status: {{ booking.approval_status }}
 <p>
 
-Commuter Name: {{ booking.commuter_name }}   </p>  
+<!-- Commuter Name: {{ booking.commuter_name }}   </p>  
 <p>Type of Vehicle : {{ booking.vehicle }} </p>
 <p>
 Date :{{ booking.pickup_date }}        </p>
@@ -21,7 +21,7 @@ Date :{{ booking.pickup_date }}        </p>
  <p> Contact : {{ booking.driver.driver_contact }}</p>
  <p> Cab No : {{ booking.vehicle.registration_number }}.</p>
  <p> Reporting Time : 30 mins prior to pick up time. </p>
-
+ -->
 <p>In case of any query, feedback or change in itinerary, communicate this at transport helpline 8222930501. </p>
 
 <p>Thank you,</p>

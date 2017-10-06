@@ -4,6 +4,7 @@
 
 {% block jquery %}
 $("a").css({"color":"yellow", "font-size":"125%", "padding-right":"20px"});
+$("h3").css({"color":"pink", "font-size":"125%", "padding-right":"20px"});
 $("a").mouseover(function(){
     $(this).css("color", "white");
 $("a").mouseleave(function(){
@@ -32,8 +33,8 @@ $("a").mouseleave(function(){
          <img src='{{ obj.image.url }}' class='img-responsive' />
         {% endif %}
       <div class="caption">
-        {% if obj.draft %}<h3>Staff only: Draft</h3>{% endif %} {% if obj.publish > today %}<h3>Staff Only: Future Post</h3>{% endif %}
-        <h3><a href='{{ obj.get_absolute_url }}'>{{ obj.commuter_name }}</a> <small>Pickup Date: {{ obj.pickup_date }}</small></h3>
+        
+        <h3><a id="link" href='{{ obj.get_absolute_url }}'>{{ obj.commuter_name }}</a> <small>Pickup Date: {{ obj.pickup_date }}</small></h3>
         {% if obj.user.get_full_name %}<p>Name: {{ obj.user.get_full_name }}</p>{% endif %}
         <p>Approval Status: {{ obj.approval_status }}</p>
         <p>Vehicle Type: {{ obj.vehicle_type }}</p>

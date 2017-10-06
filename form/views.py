@@ -38,12 +38,12 @@ def BookingFormView(request):
 		form_email1 = form.cleaned_data.get("approving_authority_email")
 		#form_email2 = form.cleaned_data.get("approval_email")
 		form_name = form.cleaned_data.get("commuter_name")
-		form_vehicle_type = form.cleaned_data.get("vehicle_type")
+		form_vehicle = form.cleaned_data.get("vehicle")
 		subject = "localhost:8000/booking/%s" %(instance.slug)  
 		from_email = settings.EMAIL_HOST_USER 
 		to_email = [form_email1, from_email,'guptaadityaiitb@gmail.com',]
 		contact_message = "http://127.0.0.1:8000/booking/"+"%s" %(instance.slug)
-		msg_html = render_to_string('form/email_request.html', {'booking': Booking.objects.get(slug=instance.slug)})
+		msg_html = render_to_string('form/email_request.html', {'booking': Booking.objects.get(pk=instance.pk)})
 
 		# some_html_message =  """
 		# 			<!DOCTYPE html>
@@ -157,19 +157,18 @@ class BookingUpdateView(LoginRequiredMixin, UpdateView):
         self.object.save()
         slug = self.kwargs.get("slug")
         # form_email1 = self.object.head_email
-        form_email2 = self.object.approving_authority_email
+        #form_email2 = self.object.approving_authority_email
         form_name = self.object.commuter_name
         form_vehicle_type = form.cleaned_data.get("vehicle_type")
-        subject = "localhost:8000/detail/%s" %(slug)  
-        from_email = 'gupta.aditya.iitb@gmail.com' 
-        to_email = [from_email,'guptaadityaiitb@gmail.com']
-        contact_message = "http://127.0.0.1:8000/detail/"+"%s" %(slug)
+        subject = "localhost:8000/booking/%s" %(slug)  
+        from_email = settings.EMAIL_HOST_USER 
+        to_email = [from_email,'transport.app@ashoka.edu.in',]
+        contact_message = "http://127.0.0.1:8000/booking/"+"%s" %(slug)
+        msg_html = render_to_string('form/email_status.html', {'booking': Booking.objects.get(slug=self.object.slug)})
         send_mail(subject, 
 				contact_message, 
 				from_email, 
-				to_email, 
-				
-				fail_silently=True)
+				to_email, html_message=msg_html)
         print (slug)
         #messages.success(self, "Successfully Created")
         return redirect('thanks', slug=slug)

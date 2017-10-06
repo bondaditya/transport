@@ -1,19 +1,30 @@
 from django import forms
 from .models import Booking 
 from django.contrib.auth.models import User, Group
-from django.contrib.admin.widgets import AdminDateWidget
+from django.contrib.admin import widgets
 
 class DateInput(forms.DateInput):
     input_type = 'date'
 
 class BookingForm(forms.ModelForm):
-	class Meta:
-		model = Booking 
-		fields = ['commuter_name','budget_head','vehicle_type','booking_type','pickup_address','pickup_date','pickup_time','am_pm','commuter_contact','approving_authority','approving_authority_email','remarks']
-		widgets = {
-		# 	'pickup_time':forms.TimeInput(format='%I:%M %p'),
-		 	'pickup_date': DateInput(),
-		 }
+    class Meta:
+        model = Booking
+        fields = ['commuter_name','budget_head','vehicle','booking_type','pickup_address','pickup_date','pickup_time','am_pm','commuter_contact','approving_authority','approving_authority_email','remarks']
+        widgets = {
+        #   'pickup_time':forms.TimeInput(format='%I:%M %p'),
+            'pickup_date': DateInput(),
+
+            'delivery_time': forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
+         }
+
+    
+    # def __init__(self,*args,**kwargs):
+    #     super(BookingForm,self).__init__(*args,**kwargs)
+    #     self.fields['pickup_time'].widget = widgets.AdminTimeWidget()
+    #     self.fields['pickup_date'].widget = widgets.AdminDateWidget(format='%H:%M')
+        
+
+
 
 
 		#pickup_time = forms.TimeField(widget=TimeInput(format='%I:%M %p'))

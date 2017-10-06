@@ -23,7 +23,7 @@ $("a").mouseleave(function(){
 
 
 {% block content %}
-<div class="col-md-10" align="left" style="padding-left: 400px;">
+<div class="col-md-10" align="left" style="padding-left: 400px; padding-top: 25px;">
 <form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
 {{ form|crispy }}
 <input type='submit' class='btn btn-default' value='Submit' />
